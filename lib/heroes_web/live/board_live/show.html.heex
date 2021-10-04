@@ -1,0 +1,43 @@
+<div>
+  <%= for {_key, group} <- Enum.into(@board_state, []) |> Enum.sort_by(fn {{x, y}, _field} -> {y, x} end) |> Enum.group_by(fn {{_x, y}, _} -> y end) do %>
+    <div class="row">
+    <%= for {{x, y}, {walkability, players}} <- group do %>
+        <div style="width: 65px; height: 65px; border: 1px solid black;" class={"column #{walkability}"}>
+          <%= for player <- players do %>
+            <span class={if player.name == @player_name, do: "myself"}>
+              <%= player.name %>
+              <%= if player.prone do %>
+                <span style="color: red; font-weight: 700;">!!</span>
+              <% end %>
+            </span>
+          <% end %>
+          <%= if players == [] do %>
+            <div>&nbsp;</div>
+          <% end %>
+        </div>
+        <% end %>
+      </div>
+  <% end %>
+</div>
+
+<div style="margin-top: 30px; display: inline-block">
+  <%= if @disabled do %>
+    <h3 style="color: red" class="">You are disabled and cannot do anything right now!</h3>
+  <% else %>
+    <div style="display: inline-block">
+      <button class="button button-outline" phx-click="move" phx-value-direction="left">&lt;</button>
+    </div>
+    <div style="display: inline-block">
+      <div><button class="button button-outline" phx-click="move" phx-value-direction="up">^</button></div>
+      <div><button class="button button-outline" phx-click="move" phx-value-direction="down">&or;</button></div>
+    </div>
+
+    <div style="display: inline-block">
+      <button class="button button-outline" phx-click="move" phx-value-direction="right">&gt;</button>
+    </div>
+
+    <div style="display: inline-block">
+      <button class="button" phx-click="attack">ATTACK</button>
+    </div>
+  <% end %>
+</div>

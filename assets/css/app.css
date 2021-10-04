@@ -1,0 +1,12 @@
+/* This file is for your main application CSS */
+@import "./phoenix.css";
+
+
+.unwalkable {
+  background-color: gray;
+}
+
+.myself {
+  color: green;
+  font-weight: 600;
+}
